@@ -1,207 +1,337 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import Icon from '@/components/ui/icon';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const Index = () => {
-  const services = [
-    {
-      id: 1,
-      title: "Сантехнические работы",
-      description: "Установка, ремонт сантехники любой сложности",
-      price: "от 800 ₽",
-      rating: 4.9,
-      image: "🔧"
-    },
-    {
-      id: 2,
-      title: "Электромонтажные работы",
-      description: "Проводка, розетки, выключатели, освещение",
-      price: "от 500 ₽",
-      rating: 4.8,
-      image: "⚡"
-    },
-    {
-      id: 3,
-      title: "Уборка квартир",
-      description: "Генеральная и поддерживающая уборка",
-      price: "от 1200 ₽",
-      rating: 4.9,
-      image: "🧹"
-    },
-    {
-      id: 4,
-      title: "Ремонт техники",
-      description: "Стиральные машины, холодильники, плиты",
-      price: "от 900 ₽",
-      rating: 4.7,
-      image: "🔨"
-    }
+  const [selectedCategory, setSelectedCategory] = useState('beauty');
+  
+  const categories = [
+    { id: 'beauty', name: 'Красота и здоровье', color: 'bg-pink-100 text-pink-800' },
+    { id: 'auto', name: 'Автосервисы', color: 'bg-blue-100 text-blue-800' },
+    { id: 'home', name: 'Дом и ремонт', color: 'bg-green-100 text-green-800' },
+    { id: 'fitness', name: 'Спорт и фитнес', color: 'bg-orange-100 text-orange-800' },
+    { id: 'education', name: 'Образование', color: 'bg-purple-100 text-purple-800' },
+    { id: 'health', name: 'Медицина', color: 'bg-red-100 text-red-800' }
   ];
 
-  const masters = [
-    {
-      id: 1,
-      name: "Александр Петров",
-      specialty: "Сантехник",
-      experience: "8 лет",
-      rating: 4.9,
-      reviews: 247,
-      image: "👨‍🔧"
-    },
-    {
-      id: 2,
-      name: "Елена Козлова",
-      specialty: "Уборщица",
-      experience: "5 лет",
-      rating: 4.8,
-      reviews: 189,
-      image: "👩‍🏠"
-    },
-    {
-      id: 3,
-      name: "Дмитрий Волков",
-      specialty: "Электрик",
-      experience: "12 лет",
-      rating: 4.9,
-      reviews: 324,
-      image: "👨‍🔬"
-    }
-  ];
+  const services = {
+    beauty: [
+      {
+        id: 1,
+        title: "Салон красоты Elite",
+        category: "Парикмахерская",
+        services: ["Стрижка", "Окрашивание", "Укладка", "Процедуры"],
+        rating: 4.8,
+        reviews: 234,
+        price: "от 1500 ₽",
+        location: "Центр, ул. Тверская 12",
+        workTime: "09:00 - 21:00",
+        image: "bg-gradient-to-br from-pink-400 to-purple-500"
+      },
+      {
+        id: 2,
+        title: "Lash Studio Pro",
+        category: "Наращивание ресниц",
+        services: ["Классика", "2D", "3D", "Снятие", "Коррекция"],
+        rating: 4.9,
+        reviews: 167,
+        price: "от 2200 ₽",
+        location: "Арбат, пер. Сивцев 5",
+        workTime: "10:00 - 20:00",
+        image: "bg-gradient-to-br from-rose-400 to-pink-500"
+      },
+      {
+        id: 3,
+        title: "Wellness SPA",
+        category: "SPA процедуры",
+        services: ["Массаж", "Косметология", "Обертывания", "Пилинг"],
+        rating: 4.7,
+        reviews: 198,
+        price: "от 3000 ₽",
+        location: "Сокольники, ул. Русаковская 28",
+        workTime: "08:00 - 22:00",
+        image: "bg-gradient-to-br from-emerald-400 to-teal-500"
+      }
+    ],
+    auto: [
+      {
+        id: 4,
+        title: "АвтоМастер+",
+        category: "Комплексное ТО",
+        services: ["Диагностика", "Замена масла", "Шиномонтаж", "Кузовной ремонт"],
+        rating: 4.6,
+        reviews: 324,
+        price: "от 800 ₽",
+        location: "МКАД 15км, стр. 2",
+        workTime: "08:00 - 20:00",
+        image: "bg-gradient-to-br from-blue-500 to-indigo-600"
+      },
+      {
+        id: 5,
+        title: "Express Car Wash",
+        category: "Автомойка",
+        services: ["Мойка кузова", "Химчистка салона", "Полировка", "Детейлинг"],
+        rating: 4.5,
+        reviews: 156,
+        price: "от 500 ₽",
+        location: "Варшавское шоссе 42",
+        workTime: "07:00 - 23:00",
+        image: "bg-gradient-to-br from-cyan-400 to-blue-500"
+      }
+    ],
+    home: [
+      {
+        id: 6,
+        title: "РемонтДом",
+        category: "Ремонт квартир",
+        services: ["Электрика", "Сантехника", "Отделка", "Дизайн"],
+        rating: 4.7,
+        reviews: 89,
+        price: "от 1200 ₽",
+        location: "Выезд по Москве",
+        workTime: "09:00 - 18:00",
+        image: "bg-gradient-to-br from-amber-400 to-orange-500"
+      }
+    ],
+    fitness: [
+      {
+        id: 7,
+        title: "FitLife Premium",
+        category: "Фитнес-клуб",
+        services: ["Групповые занятия", "Персональный тренер", "Бассейн", "Сауна"],
+        rating: 4.8,
+        reviews: 445,
+        price: "от 2500 ₽/мес",
+        location: "Сокол, ул. Ленинградский пр. 78",
+        workTime: "06:00 - 24:00",
+        image: "bg-gradient-to-br from-green-400 to-emerald-500"
+      }
+    ],
+    education: [
+      {
+        id: 8,
+        title: "Языковая школа Speak",
+        category: "Изучение языков",
+        services: ["Английский", "Немецкий", "Французский", "Индивидуальные уроки"],
+        rating: 4.9,
+        reviews: 267,
+        price: "от 1800 ₽/урок",
+        location: "Патриаршие пруды, ул. Малая Бронная 23",
+        workTime: "09:00 - 21:00",
+        image: "bg-gradient-to-br from-violet-400 to-purple-500"
+      }
+    ],
+    health: [
+      {
+        id: 9,
+        title: "Клиника Здоровье+",
+        category: "Медицинский центр",
+        services: ["Терапевт", "Кардиолог", "УЗИ", "Анализы"],
+        rating: 4.6,
+        reviews: 578,
+        price: "от 1500 ₽",
+        location: "Чистые пруды, Мясницкая 42",
+        workTime: "08:00 - 20:00",
+        image: "bg-gradient-to-br from-red-400 to-pink-500"
+      }
+    ]
+  };
 
-  const faqItems = [
-    {
-      question: "Как быстро мастер приедет?",
-      answer: "В большинстве случаев мастер может приехать в течение 2-4 часов после оформления заявки. Для срочных вызовов — в течение часа."
-    },
-    {
-      question: "Гарантия на выполненные работы?",
-      answer: "Мы предоставляем гарантию от 3 до 12 месяцев в зависимости от типа работ. Все мастера застрахованы."
-    },
-    {
-      question: "Можно ли вызвать мастера на выходные?",
-      answer: "Да, наши мастера работают 7 дней в неделю, включая праздничные дни. Стоимость услуг в выходные может быть увеличена на 20%."
-    },
-    {
-      question: "Как производится оплата?",
-      answer: "Оплата производится после выполнения работ наличными мастеру или по безналичному расчету через приложение."
-    }
-  ];
+  const getCurrentServices = () => services[selectedCategory] || [];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Navigation */}
-      <nav className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50">
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
-              <div className="text-2xl">🏠</div>
-              <span className="text-xl font-bold text-primary">Мастер на дом</span>
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-primary rounded-lg"></div>
+              <span className="text-2xl font-bold text-gray-900">BookService</span>
             </div>
             
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#services" className="text-gray-700 hover:text-primary transition-colors">Услуги</a>
-              <a href="#masters" className="text-gray-700 hover:text-primary transition-colors">Мастера</a>
-              <a href="#booking" className="text-gray-700 hover:text-primary transition-colors">Записаться</a>
-              <a href="#faq" className="text-gray-700 hover:text-primary transition-colors">FAQ</a>
+              <a href="#services" className="text-gray-600 hover:text-gray-900 font-medium">Услуги</a>
+              <a href="#providers" className="text-gray-600 hover:text-gray-900 font-medium">Поставщики</a>
+              <a href="#booking" className="text-gray-600 hover:text-gray-900 font-medium">Бронирование</a>
+              <a href="#business" className="text-gray-600 hover:text-gray-900 font-medium">Для бизнеса</a>
             </div>
             
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="sm">
-                <Icon name="User" size={18} />
-                Войти
-              </Button>
-              <Button size="sm">Стать мастером</Button>
+              <Button variant="ghost">Войти</Button>
+              <Button>Регистрация</Button>
             </div>
           </div>
         </div>
-      </nav>
+      </header>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-20 px-4">
+      <section className="bg-white py-20 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center animate-fade-in">
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-              Найди мастера
+          <div className="text-center mb-12">
+            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+              Маркетплейс
               <br />
-              <span className="text-primary">за 2 минуты</span>
+              <span className="text-primary">бронирований</span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Проверенные специалисты для ремонта и обслуживания дома. 
-              Быстро, качественно, с гарантией.
+            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+              Найдите и забронируйте услуги в любой сфере бизнеса. 
+              Красота, автосервисы, ремонт, спорт, образование и медицина.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto">
-              <Button size="lg" className="w-full sm:w-auto px-8">
-                <Icon name="Search" size={20} className="mr-2" />
-                Найти мастера
-              </Button>
-              <Button variant="outline" size="lg" className="w-full sm:w-auto px-8">
-                <Icon name="Play" size={20} className="mr-2" />
-                Как это работает
-              </Button>
+            <div className="max-w-2xl mx-auto">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex-1">
+                  <Input 
+                    placeholder="Поиск услуг, салонов, мастеров..." 
+                    className="h-12 text-lg"
+                  />
+                </div>
+                <div className="sm:w-48">
+                  <Select>
+                    <SelectTrigger className="h-12">
+                      <SelectValue placeholder="Город" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="moscow">Москва</SelectItem>
+                      <SelectItem value="spb">Санкт-Петербург</SelectItem>
+                      <SelectItem value="ekb">Екатеринбург</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <Button size="lg" className="h-12 px-8">
+                  Найти
+                </Button>
+              </div>
             </div>
           </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 animate-slide-up">
+
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16">
             <div className="text-center">
-              <div className="text-3xl font-bold text-primary">10k+</div>
-              <div className="text-gray-600">Довольных клиентов</div>
+              <div className="text-4xl font-bold text-primary mb-2">15000+</div>
+              <div className="text-gray-600 font-medium">Поставщиков услуг</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-primary">500+</div>
-              <div className="text-gray-600">Проверенных мастеров</div>
+              <div className="text-4xl font-bold text-primary mb-2">250K+</div>
+              <div className="text-gray-600 font-medium">Довольных клиентов</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-primary">4.9</div>
-              <div className="text-gray-600">Средний рейтинг</div>
+              <div className="text-4xl font-bold text-primary mb-2">50+</div>
+              <div className="text-gray-600 font-medium">Категорий услуг</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-primary">24/7</div>
-              <div className="text-gray-600">Поддержка</div>
+              <div className="text-4xl font-bold text-primary mb-2">4.8</div>
+              <div className="text-gray-600 font-medium">Средний рейтинг</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Services Section */}
+      {/* Categories Section */}
+      <section className="py-20 px-4 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Категории услуг</h2>
+            <p className="text-xl text-gray-600">Выберите категорию для поиска подходящих услуг</p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-12">
+            {categories.map((category) => (
+              <Card 
+                key={category.id}
+                className={`cursor-pointer transition-all hover:shadow-lg ${
+                  selectedCategory === category.id ? 'ring-2 ring-primary' : ''
+                }`}
+                onClick={() => setSelectedCategory(category.id)}
+              >
+                <CardContent className="p-6 text-center">
+                  <div className={`w-16 h-16 rounded-full ${category.color} mx-auto mb-4 flex items-center justify-center`}>
+                    <div className="w-8 h-8 bg-current opacity-20 rounded"></div>
+                  </div>
+                  <h3 className="font-semibold text-gray-900">{category.name}</h3>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Services Listings */}
       <section id="services" className="py-20 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Популярные услуги
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-900">
+              {categories.find(c => c.id === selectedCategory)?.name}
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Широкий спектр домашних услуг от профессиональных мастеров
-            </p>
+            
+            <div className="flex items-center space-x-4">
+              <Select>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="Сортировка" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="rating">По рейтингу</SelectItem>
+                  <SelectItem value="price">По цене</SelectItem>
+                  <SelectItem value="reviews">По отзывам</SelectItem>
+                  <SelectItem value="distance">По расстоянию</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.map((service) => (
-              <Card key={service.id} className="hover:shadow-lg transition-shadow group cursor-pointer">
-                <CardHeader className="text-center">
-                  <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">
-                    {service.image}
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {getCurrentServices().map((service) => (
+              <Card key={service.id} className="hover:shadow-lg transition-shadow group">
+                <div className={`h-48 ${service.image} rounded-t-lg relative overflow-hidden`}>
+                  <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-10 transition-opacity"></div>
+                  <div className="absolute top-4 left-4">
+                    <Badge className="bg-white text-gray-900">{service.category}</Badge>
                   </div>
-                  <CardTitle className="text-lg">{service.title}</CardTitle>
-                  <CardDescription>{service.description}</CardDescription>
+                  <div className="absolute top-4 right-4">
+                    <div className="bg-white rounded-full px-3 py-1 flex items-center space-x-1">
+                      <span className="text-yellow-500">★</span>
+                      <span className="font-semibold text-gray-900">{service.rating}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <CardHeader>
+                  <CardTitle className="text-xl">{service.title}</CardTitle>
+                  <div className="flex items-center space-x-4 text-sm text-gray-500">
+                    <span>{service.location}</span>
+                    <span>•</span>
+                    <span>{service.workTime}</span>
+                  </div>
                 </CardHeader>
-                <CardContent className="text-center">
+                
+                <CardContent className="space-y-4">
+                  <div className="flex flex-wrap gap-2">
+                    {service.services.slice(0, 3).map((serviceItem, index) => (
+                      <Badge key={index} variant="secondary" className="text-xs">
+                        {serviceItem}
+                      </Badge>
+                    ))}
+                    {service.services.length > 3 && (
+                      <Badge variant="outline" className="text-xs">
+                        +{service.services.length - 3} еще
+                      </Badge>
+                    )}
+                  </div>
+                  
                   <div className="flex items-center justify-between">
-                    <span className="font-semibold text-primary">{service.price}</span>
-                    <div className="flex items-center space-x-1">
-                      <Icon name="Star" size={16} className="text-yellow-400 fill-current" />
-                      <span className="text-sm text-gray-600">{service.rating}</span>
+                    <div>
+                      <div className="font-semibold text-lg text-primary">{service.price}</div>
+                      <div className="text-sm text-gray-500">{service.reviews} отзывов</div>
                     </div>
+                    <Button className="px-6">
+                      Забронировать
+                    </Button>
                   </div>
-                  <Button className="w-full mt-4" variant="outline">
-                    Заказать
-                  </Button>
                 </CardContent>
               </Card>
             ))}
@@ -209,174 +339,118 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Masters Section */}
-      <section id="masters" className="py-20 px-4 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Лучшие мастера
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Профессионалы с высокими рейтингами и множественными отзывами
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {masters.map((master) => (
-              <Card key={master.id} className="hover:shadow-lg transition-shadow">
-                <CardHeader className="text-center">
-                  <div className="text-6xl mb-4">{master.image}</div>
-                  <CardTitle className="text-xl">{master.name}</CardTitle>
-                  <CardDescription className="text-primary font-medium">
-                    {master.specialty}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="text-center space-y-3">
-                  <div className="flex justify-center items-center space-x-4">
-                    <Badge variant="secondary">
-                      Опыт {master.experience}
-                    </Badge>
-                  </div>
-                  
-                  <div className="flex items-center justify-center space-x-2">
-                    <div className="flex items-center space-x-1">
-                      <Icon name="Star" size={16} className="text-yellow-400 fill-current" />
-                      <span className="font-semibold">{master.rating}</span>
-                    </div>
-                    <span className="text-gray-600">({master.reviews} отзывов)</span>
-                  </div>
-                  
-                  <Button className="w-full">
-                    <Icon name="Calendar" size={18} className="mr-2" />
-                    Записаться
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Booking Form Section */}
-      <section id="booking" className="py-20 px-4 bg-white">
+      {/* Quick Booking */}
+      <section id="booking" className="py-20 px-4 bg-gray-900 text-white">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Быстрая запись
-            </h2>
-            <p className="text-xl text-gray-600">
-              Оставьте заявку и мы найдем подходящего мастера
-            </p>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-4">Быстрое бронирование</h2>
+            <p className="text-xl text-gray-300">Оставьте заявку и мы подберем лучший вариант</p>
           </div>
           
-          <Card className="max-w-2xl mx-auto">
-            <CardHeader>
-              <CardTitle className="text-center">Форма заявки</CardTitle>
-              <CardDescription className="text-center">
-                Заполните форму и получите звонок в течение 15 минут
+          <Card className="bg-gray-800 border-gray-700">
+            <CardHeader className="text-center">
+              <CardTitle className="text-white text-2xl">Форма заявки</CardTitle>
+              <CardDescription className="text-gray-300">
+                Получите персональные предложения в течение 30 минут
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Ваше имя</Label>
-                  <Input id="name" placeholder="Введите имя" />
+                  <Label htmlFor="clientName" className="text-white">Ваше имя</Label>
+                  <Input id="clientName" placeholder="Введите имя" className="bg-gray-700 border-gray-600 text-white" />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="phone">Телефон</Label>
-                  <Input id="phone" placeholder="+7 (999) 123-45-67" />
+                  <Label htmlFor="clientPhone" className="text-white">Телефон</Label>
+                  <Input id="clientPhone" placeholder="+7 (999) 123-45-67" className="bg-gray-700 border-gray-600 text-white" />
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label className="text-white">Категория услуги</Label>
+                  <Select>
+                    <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
+                      <SelectValue placeholder="Выберите категорию" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map(cat => (
+                        <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="dateTime" className="text-white">Желаемая дата и время</Label>
+                  <Input id="dateTime" type="datetime-local" className="bg-gray-700 border-gray-600 text-white" />
                 </div>
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="service">Тип услуги</Label>
-                <Input id="service" placeholder="Например: сантехника, электрика..." />
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="address">Адрес</Label>
-                <Input id="address" placeholder="Улица, дом, квартира" />
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="description">Описание проблемы</Label>
-                <Textarea 
-                  id="description" 
-                  placeholder="Опишите что нужно сделать..."
-                  rows={4}
-                />
+                <Label htmlFor="budget" className="text-white">Бюджет</Label>
+                <Select>
+                  <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
+                    <SelectValue placeholder="Выберите бюджет" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1000">до 1 000 ₽</SelectItem>
+                    <SelectItem value="3000">1 000 - 3 000 ₽</SelectItem>
+                    <SelectItem value="5000">3 000 - 5 000 ₽</SelectItem>
+                    <SelectItem value="10000">5 000 - 10 000 ₽</SelectItem>
+                    <SelectItem value="more">более 10 000 ₽</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               
               <Button className="w-full" size="lg">
-                <Icon name="Send" size={20} className="mr-2" />
                 Отправить заявку
               </Button>
               
-              <p className="text-sm text-gray-500 text-center">
-                Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
+              <p className="text-sm text-gray-400 text-center">
+                Отправляя заявку, вы соглашаетесь с условиями обработки персональных данных
               </p>
             </CardContent>
           </Card>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section id="faq" className="py-20 px-4 bg-gray-50">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Частые вопросы
-            </h2>
-            <p className="text-xl text-gray-600">
-              Ответы на самые популярные вопросы клиентов
-            </p>
-          </div>
-          
-          <Accordion type="single" collapsible className="w-full">
-            {faqItems.map((item, index) => (
-              <AccordionItem key={index} value={`item-${index}`}>
-                <AccordionTrigger className="text-left">
-                  {item.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-gray-600">
-                  {item.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section className="py-20 px-4 bg-primary text-white">
+      {/* For Business */}
+      <section id="business" className="py-20 px-4 bg-primary text-white">
         <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-8">
-            Есть вопросы? Мы на связи!
-          </h2>
+          <h2 className="text-4xl font-bold mb-6">Для бизнеса</h2>
+          <p className="text-xl mb-12 max-w-3xl mx-auto opacity-90">
+            Зарегистрируйте свой бизнес на платформе и получите доступ к тысячам клиентов. 
+            Управляйте записями, отзывами и аналитикой в одном месте.
+          </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <div className="flex flex-col items-center space-y-2">
-              <Icon name="Phone" size={32} />
-              <h3 className="text-xl font-semibold">Телефон</h3>
-              <p className="text-blue-100">+7 (800) 123-45-67</p>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <div className="w-8 h-8 bg-white rounded"></div>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Больше клиентов</h3>
+              <p className="opacity-80">Привлекайте новых клиентов через нашу платформу</p>
             </div>
             
-            <div className="flex flex-col items-center space-y-2">
-              <Icon name="Mail" size={32} />
-              <h3 className="text-xl font-semibold">Email</h3>
-              <p className="text-blue-100">info@master-na-dom.ru</p>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <div className="w-8 h-8 bg-white rounded"></div>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Удобное управление</h3>
+              <p className="opacity-80">Управляйте расписанием и бронированиями онлайн</p>
             </div>
             
-            <div className="flex flex-col items-center space-y-2">
-              <Icon name="Clock" size={32} />
-              <h3 className="text-xl font-semibold">Режим работы</h3>
-              <p className="text-blue-100">Ежедневно 08:00 - 22:00</p>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <div className="w-8 h-8 bg-white rounded"></div>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Аналитика</h3>
+              <p className="opacity-80">Отслеживайте статистику и рост бизнеса</p>
             </div>
           </div>
           
-          <Button variant="secondary" size="lg">
-            <Icon name="MessageCircle" size={20} className="mr-2" />
-            Написать в поддержку
+          <Button variant="secondary" size="lg" className="px-8">
+            Зарегистрировать бизнес
           </Button>
         </div>
       </section>
@@ -386,50 +460,39 @@ const Index = () => {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-2">
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="text-2xl">🏠</div>
-                <span className="text-xl font-bold">Мастер на дом</span>
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-8 h-8 bg-primary rounded-lg"></div>
+                <span className="text-xl font-bold">BookService</span>
               </div>
-              <p className="text-gray-400 mb-4">
-                Профессиональные услуги мастеров для вашего дома. 
-                Быстро, качественно, надежно.
+              <p className="text-gray-400 mb-6">
+                Маркетплейс бронирований услуг в любой сфере бизнеса. 
+                Удобно, быстро, надежно.
               </p>
-              <div className="flex space-x-4">
-                <Button variant="ghost" size="sm">
-                  <Icon name="Facebook" size={20} />
-                </Button>
-                <Button variant="ghost" size="sm">
-                  <Icon name="Twitter" size={20} />
-                </Button>
-                <Button variant="ghost" size="sm">
-                  <Icon name="Instagram" size={20} />
-                </Button>
-              </div>
             </div>
             
             <div>
-              <h3 className="font-semibold mb-4">Услуги</h3>
+              <h3 className="font-semibold mb-4">Категории</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Сантехника</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Электрика</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Уборка</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Ремонт техники</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Красота и здоровье</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Автосервисы</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Дом и ремонт</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Спорт и фитнес</a></li>
               </ul>
             </div>
             
             <div>
-              <h3 className="font-semibold mb-4">Информация</h3>
+              <h3 className="font-semibold mb-4">Компания</h3>
               <ul className="space-y-2 text-gray-400">
                 <li><a href="#" className="hover:text-white transition-colors">О нас</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Как это работает</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Стать мастером</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Для бизнеса</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Поддержка</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Контакты</a></li>
               </ul>
             </div>
           </div>
           
           <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 Мастер на дом. Все права защищены.</p>
+            <p>&copy; 2024 BookService. Все права защищены.</p>
           </div>
         </div>
       </footer>
