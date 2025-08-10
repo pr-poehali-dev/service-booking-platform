@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import Header from '@/components/Header';
-import HeroSection from '@/components/HeroSection';
-import CategoriesSection from '@/components/CategoriesSection';
-import ServicesSection from '@/components/ServicesSection';
-import BookingSection from '@/components/BookingSection';
-import BusinessSection from '@/components/BusinessSection';
+import MarketplaceHeader from '@/components/MarketplaceHeader';
+import CatalogFilters from '@/components/CatalogFilters';
+import ServiceCatalog from '@/components/ServiceCatalog';
+import StepByStepRegistration from '@/components/StepByStepRegistration';
 import Footer from '@/components/Footer';
 
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState('beauty');
+  const [serviceType, setServiceType] = useState<'booking' | 'order'>('booking');
+  const [priceRange, setPriceRange] = useState([0, 10000]);
+  const [showRegistration, setShowRegistration] = useState(false);
+  const [selectedService, setSelectedService] = useState<any>(null);
   
   const categories = [
     { id: 'beauty', name: 'Красота и здоровье', color: 'bg-pink-100 text-pink-800' },
@@ -142,27 +144,72 @@ const Index = () => {
     ]
   };
 
+  const getCurrentServices = () => services[selectedCategory] || [];
+
+  const handleServiceSelect = (service: any) => {
+    setSelectedService(service);
+    setShowRegistration(true);
+  };
+
+  const handleServiceTypeChange = (type: 'booking' | 'order') => {
+    setServiceType(type);
+  };
+
   const handleCategorySelect = (categoryId: string) => {
     setSelectedCategory(categoryId);
   };
 
+  const handlePriceRangeChange = (range: number[]) => {
+    setPriceRange(range);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
-      <HeroSection />
-      <CategoriesSection 
-        categories={categories}
-        selectedCategory={selectedCategory}
-        onCategorySelect={handleCategorySelect}
+      <MarketplaceHeader 
+        serviceType={serviceType}
+        onServiceTypeChange={handleServiceTypeChange}
       />
-      <ServicesSection 
-        categories={categories}
-        services={services}
-        selectedCategory={selectedCategory}
-      />
-      <BookingSection categories={categories} />
-      <BusinessSection />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Sidebar Filters */}
+          <div className="lg:col-span-1">
+            <div className="sticky top-32">
+              <CatalogFilters
+                categories={categories}
+                selectedCategory={selectedCategory}
+                onCategorySelect={handleCategorySelect}
+                priceRange={priceRange}
+                onPriceRangeChange={handlePriceRangeChange}
+              />
+            </div>
+          </div>
+
+          {/* Main Content */}
+          <div className="lg:col-span-3">
+            <ServiceCatalog
+              services={getCurrentServices()}
+              serviceType={serviceType}
+              onServiceSelect={handleServiceSelect}
+            />
+          </div>
+        </div>
+      </div>
+
       <Footer />
+
+      {/* Step by Step Registration Modal */}
+      {showRegistration && (
+        <StepByStepRegistration
+          selectedService={selectedService}
+          categories={categories}
+          serviceType={serviceType}
+          onClose={() => {
+            setShowRegistration(false);
+            setSelectedService(null);
+          }}
+        />
+      )}
     </div>
   );
 };
